@@ -1,0 +1,15 @@
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\RestfulPatientServiceClient.exe.config
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\RestfulPatientServiceClient.exe
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\RestfulPatientServiceClient.pdb
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\EntityFramework.dll
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\EntityFramework.xml
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\obj\Debug\RestfulPatientServiceClient.csproj.CoreCompileInputs.cache
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\obj\Debug\RestfulPatientServiceClient.csproj.CopyComplete
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\obj\Debug\RestfulPatientServiceClient.exe
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientServiceClient\obj\Debug\RestfulPatientServiceClient.pdb
