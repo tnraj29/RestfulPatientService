@@ -10,128 +10,191 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using RestfulPatientService.Models;
 using System.Threading.Tasks;
-
 using System.Net.Http.Formatting;
+
+using RestfulPatientService.Repository;
 
 namespace RestfulPatientService.Controllers
 {
+    //Defines all actions related to "Patient" entity.
     public class PatientsController : ApiController
     {
-        private HealthContext db = new HealthContext();
+        private PatientReposiltory m_Repository;        
+
+        public PatientsController(PatientReposiltory patientRepo)
+        {
+            m_Repository = patientRepo;
+        }
+
+        public PatientsController()
+        {
+            m_Repository = new PatientReposiltory();
+        }
 
         // GET: api/Patients
         [HttpGet]
         [Route("api/Patients")]
-        public IQueryable<Patient> GetPatients()
+        public HttpResponseMessage GetPatients()
         {
-            return db.Patients;//.Include("Phones");
+            IQueryable<Patient> patients = m_Repository.GetAll();
+
+            if (patients.CountAsync<Patient>().Equals(0))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Gone, "The Patients collection is Empty!");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, patients);
         }
 
         // GET: api/Patients/5
         [HttpGet]
         [Route("api/Patients/{id}", Name = "GetPatient")]
-        public async Task<IHttpActionResult> GetPatient(int id)
+        public HttpResponseMessage GetPatient(int id)
         {
-            Patient patient = await db.FindPatient(id);
-
-            if (patient == null)
+            Patient patient = null;
+            try
             {
-                return NotFound();
+                patient = m_Repository.GetByID(id);
+                
+                if (patient == null) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Invalid PatientID");
+            }
+            catch (ArgumentNullException e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, e);          
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message);
             }
 
-            patient = await db.GetPatient(id);
-            
-            return Ok(patient);
+            return Request.CreateResponse(HttpStatusCode.OK, patient);
         }
 
         // PUT: api/Patients/5
         [ResponseType(typeof(void))]
         [HttpPut]
         [RouteAttribute("api/Patients/{id}", Name = "UpdatePatient")]
-        public async Task<IHttpActionResult> UpdatePatient(int id, Patient patient)
+        public async Task<HttpResponseMessage> UpdatePatient(int id, Patient patient)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
             if (id != patient.PatientID)
             {
-                return BadRequest();
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
+
+            m_Repository.Edit(patient);
 
             try
             {
-                await db.UpdatePatient(patient);
+                await m_Repository.SaveAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, e.Message);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message);
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         // POST: api/Patients
         [HttpPost]
         [Route("api/Patients", Name = "CreatePatient")]
-        public async Task<IHttpActionResult> CreatePatient(Patient patient)
+        public async Task<HttpResponseMessage> CreatePatient(Patient patient)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
+
+            m_Repository.Add(patient);
 
             try
             {
-                await db.CreatePatient(patient);
+                await m_Repository.SaveAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, e.Message);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message);
             }
 
-            return CreatedAtRoute<Patient>("GetPatient", new { id = patient.PatientID }, patient);
-            
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, patient);
+
+            string newpatientURI = Url.Link("GetPatient", new { id = patient.PatientID, controller = "Patients" });
+            response.Headers.Location = new Uri(newpatientURI);
+
+            return response;             
         }
 
         // DELETE: api/Patients/5
         [ResponseType(typeof(Patient))]
         [HttpDelete]
-        [Route("api/Patients/{id}", Name = "DeletePatient")]        
-        public async Task<IHttpActionResult> DeletePatient(int id)
+        [Route("api/Patients/{id}", Name = "DeletePatient")]
+        public async Task<HttpResponseMessage> DeletePatient(int id)
         {
-            Patient patient = await db.FindPatient(id);
-
-            if (patient == null)
+            Patient patient = null;
+            try
             {
-                return NotFound();
+                patient = m_Repository.GetByID(id);
+           
+                if (patient == null)
+                {
+                    if (patient == null) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Invalid PatientID");
+                }
             }
+            catch (ArgumentNullException e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, e);
+            }
+            
+            m_Repository.Remove(patient);
 
             try
             {
-                await db.DeletePatient(id);
+                await m_Repository.SaveAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, e.Message);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message);
             }
 
-            return Ok(patient);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                m_Repository.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool PatientExists(int id)
-        {
-            return db.Patients.Count(e => e.PatientID == id) > 0;
-        }
+        }        
     }
 }

@@ -21,14 +21,13 @@ namespace RestfulPatientService
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // Configure Datacontract Serializer.
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SetSerializer<Patient>( new DataContractSerializer(typeof(Patient), new Type[] { typeof(Phone) }) );
         }
 
         protected void Application_Error()
         {
             var exception = Server.GetLastError();
-
-            //Debug.WriteLine(exception);
         }
     }
 }

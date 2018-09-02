@@ -94,6 +94,7 @@ C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\bin\Microsoft.AI.D
 C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\bin\Microsoft.AI.Web.xml
 C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\obj\Debug\RestfulPatientService.csprojAssemblyReference.cache
 C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\obj\Debug\RestfulPatientService.csproj.CoreCompileInputs.cache
 C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\obj\Debug\RestfulPatientService.csproj.CopyComplete
 C:\Users\Rajendra\RestfulPatientService\RestfulPatientService\obj\Debug\RestfulPatientService.dll
