@@ -197,6 +197,10 @@
     <Compile Include="Models\Patient.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\IGenericRepository.cs" />
+    <Compile Include="Repository\IPatientRepository.cs" />
+    <Compile Include="Repository\PatientReposiltory .cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

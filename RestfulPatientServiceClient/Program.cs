@@ -19,12 +19,14 @@ using System.Runtime.Serialization;
 [assembly: ContractNamespace("http://PatientDemographics.com/2018/01", ClrNamespace = "RestfulPatientServiceClient")]
 namespace RestfulPatientServiceClient
 {
+    //This is the EF Data context for testing.
     public class HealthContext : DbContext
     {
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Phone> Phones { get; set; }
     }
 
+    //This is the EF Data entity used for testing.
     [DataContract(Namespace = "")]
     public class Patient
     {
@@ -82,11 +84,13 @@ namespace RestfulPatientServiceClient
         public virtual Patient Patient { get; set; }
     }
 
-
+    // This is a Http Test client used for testing the Web API - "RestfulPatient service".
+    // Tests all CRUD operation on the Web API.
     class Program
     {
         static HttpClient client = new HttpClient();
 
+        #region Serialization Helper Methods.
         static string Serialize<T>(MediaTypeFormatter formatter, T value)
         {
             // Create a dummy HTTP Content.
@@ -110,6 +114,9 @@ namespace RestfulPatientServiceClient
             // Deserialize to an object of type T
             return formatter.ReadFromStreamAsync(typeof(T), stream, null, null).Result as T;
         }
+        #endregion
+
+        #region Web API Test Methods
 
         static async Task<Uri> CreatePatientAsync(Patient patient)
         {
@@ -160,6 +167,10 @@ namespace RestfulPatientServiceClient
             return response.StatusCode;
         }
 
+        #endregion
+        
+        #region Web API Helper Methods.
+
         static void ShowPatient(Patient patient)
         {
             string patientHeader = $"Forename" + $"\tSurname" + $"\t\tGender" + $"\t\tPhoneNumber" + $"\tPhoneType";
@@ -172,8 +183,7 @@ namespace RestfulPatientServiceClient
             {
                 Console.WriteLine(patientData + $"\t\t" + phone.PhoneNumber + $"\t\t" + phone.PhoneType);
             }
-        }
-
+        }        
         static async Task<Patient> GetAllPatientAsync()
         {
             Patient patient = null;
@@ -225,8 +235,6 @@ namespace RestfulPatientServiceClient
 
         static async Task<Uri> TestCreatePatient(Patient patient)
         {
-            //Patient patient = GetPatientTestData();
-
             var url = await CreatePatientAsync(patient);
             Console.WriteLine($"Created Resource Patient at {url}");
 
@@ -252,6 +260,9 @@ namespace RestfulPatientServiceClient
             return statuscode;
         }
 
+        #endregion
+
+        #region Serialisation Test Methods.
         static string TestXMLSerialization(Patient p)
         {
             // This creates an XML Serializer.
@@ -273,6 +284,7 @@ namespace RestfulPatientServiceClient
 
             return p;
         }
+        #endregion
 
         static async Task RunAsync()
         {
@@ -310,6 +322,8 @@ namespace RestfulPatientServiceClient
             Console.ReadLine();
         }
 
+        #region Database Context Test Methods.
+
         static void TestHealthContext()
         {
             using (var db = new HealthContext())
@@ -321,22 +335,11 @@ namespace RestfulPatientServiceClient
 
                 patient = db.Patients.Include("Phones").FirstOrDefault(); 
 
-                //var allPatPhones = db.Patients.Include("Phones").ToList();
-
-                ShowPatient(patient);
-
-                //foreach (var patient in allPatPhones)
-                //{
-                //    Console.WriteLine(patient.Forename);
-
-                //    foreach (var phone in patient.Phones)
-                //    {
-                //        Console.WriteLine(phone.PhoneNumber);
-                //        Console.WriteLine(phone.PhoneType);
-                //    }
-                //}                
+                ShowPatient(patient);                                
             }
         }
+        #endregion
+
         static void Main(string[] args)
         {
             InitPatientService();

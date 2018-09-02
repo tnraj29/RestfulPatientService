@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulPatientService", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulPatientServiceClient", "RestfulPatientServiceClient\RestfulPatientServiceClient.csproj", "{C9691323-6411-4297-8586-74812BBF16D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulPatientService.Tests", "RestfulPatientService.Tests\RestfulPatientService.Tests.csproj", "{D72079BC-048B-4914-A6FE-01C40E040BEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C9691323-6411-4297-8586-74812BBF16D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9691323-6411-4297-8586-74812BBF16D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9691323-6411-4297-8586-74812BBF16D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D72079BC-048B-4914-A6FE-01C40E040BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72079BC-048B-4914-A6FE-01C40E040BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72079BC-048B-4914-A6FE-01C40E040BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72079BC-048B-4914-A6FE-01C40E040BEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

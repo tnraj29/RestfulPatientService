@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace RestfulPatientService.Models
 {
+    // This is the EF Database context used for perfroming all database related operations
+    // on all the "Patient" Entity types.
     public class HealthContext: DbContext
     {
         public DbSet<Patient> Patients { get;  set; }
@@ -15,8 +17,6 @@ namespace RestfulPatientService.Models
 
         public HealthContext()
         {
-            //base.Configuration.ProxyCreationEnabled = false;
-
         }
 
         public async Task<Patient> CreatePatient(Patient patient)

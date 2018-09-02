@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 [assembly: ContractNamespace("http://PatientDemographics.com/2018/01", ClrNamespace = "RestfulPatientService.Models")]
 namespace RestfulPatientService.Models
 {
+    //Defines the data Entity "Patient" and describes the relationship with the related "Phone" entity, 
+    //with all the data and Serialization contraints.
     [DataContract(Namespace = "")]
     public class Patient
     {
